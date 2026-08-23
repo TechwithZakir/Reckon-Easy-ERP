@@ -13,9 +13,9 @@ frappe.pages["easy-collection"].on_page_load = function (wrapper) {
 		reference: frappe.ui.form.make_control({ parent: page.main.find(".reference-control"), df: { fieldtype: "Data", label: __("লেনদেন রেফারেন্স") }, render_input: true }),
 	};
 	reckon_easy_erp.guard_autocomplete(page.main);
-	const state = { invoices: [], request_id: reckon_easy_erp.request_id() };
+	const state = { invoices: [], currency: null, request_id: reckon_easy_erp.request_id() };
 	page.main.find(".payment-list").on("click", () => frappe.set_route("payment-entry"));
-	frappe.call("reckon_easy_erp.sales_api.get_sales_context").then(({ message }) => { controls.mode.df.options = ["", ...message.payment_modes.map((row) => row.display_name)].join("\n"); controls.mode.refresh(); });
+	frappe.call("reckon_easy_erp.sales_api.get_sales_context").then(({ message }) => { state.currency = message.currency; controls.mode.df.options = ["", ...message.payment_modes.map((row) => row.display_name)].join("\n"); controls.mode.refresh(); if (message.payment_modes.length === 1) controls.mode.set_value(message.payment_modes[0].display_name); });
 	page.main.find(".load-outstanding").on("click", () => load_outstanding(page.main, controls, state));
 	page.main.find(".submit-collection").on("click", () => submit_collection(page.main, controls, state));
 };
@@ -24,8 +24,8 @@ function load_outstanding(container, controls, state) {
 	const customer = controls.customer.get_value(); if (!customer) return frappe.msgprint(__("ক্রেতা নির্বাচন করুন"));
 	frappe.call("reckon_easy_erp.sales_api.get_customer_outstanding", { customer }).then(({ message }) => {
 		state.invoices = message.invoices || [];
-		container.find(".outstanding-summary").html(`<span>${__("মোট বকেয়া")}</span><strong>৳ ${reckon_easy_erp.format_money(message.total_outstanding)}</strong>`);
-		container.find(".invoice-selection").html(state.invoices.length ? `<div class="easy-invoice-table"><div class="easy-invoice-head"><span></span><span>${__("বিক্রয়")}</span><span>${__("তারিখ")}</span><span>${__("মোট")}</span><span>${__("বাকি")}</span></div>${state.invoices.map((row, index) => `<label class="easy-invoice-row"><input type="checkbox" data-index="${index}" checked><span>${frappe.utils.escape_html(row.name)}</span><span>${frappe.datetime.str_to_user(row.posting_date)}</span><span>৳ ${reckon_easy_erp.format_money(row.grand_total)}</span><strong>৳ ${reckon_easy_erp.format_money(row.outstanding_amount)}</strong></label>`).join("")}</div>` : `<div class="easy-empty-cart">${__("এই ক্রেতার কোনো বকেয়া নেই")}</div>`);
+		container.find(".outstanding-summary").html(`<span>${__("মোট বকেয়া")}</span><strong>${reckon_easy_erp.format_currency(message.total_outstanding, state.currency)}</strong>`);
+		container.find(".invoice-selection").html(state.invoices.length ? `<div class="easy-invoice-table"><div class="easy-invoice-head"><span></span><span>${__("বিক্রয়")}</span><span>${__("তারিখ")}</span><span>${__("মোট")}</span><span>${__("বাকি")}</span></div>${state.invoices.map((row, index) => `<label class="easy-invoice-row"><input type="checkbox" data-index="${index}" checked><span>${frappe.utils.escape_html(row.name)}</span><span>${frappe.datetime.str_to_user(row.posting_date)}</span><span>${reckon_easy_erp.format_currency(row.grand_total, row.currency || state.currency)}</span><strong>${reckon_easy_erp.format_currency(row.outstanding_amount, row.currency || state.currency)}</strong></label>`).join("")}</div>` : `<div class="easy-empty-cart">${__("এই ক্রেতার কোনো বকেয়া নেই")}</div>`);
 		controls.amount.set_value(message.total_outstanding);
 	});
 }

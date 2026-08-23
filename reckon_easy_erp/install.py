@@ -58,7 +58,10 @@ def ensure_settings() -> None:
 	settings = frappe.get_doc("Easy ERP Settings")
 	if not settings.default_country:
 		settings.default_country = "Bangladesh"
-		settings.default_currency = "BDT"
+		company = frappe.defaults.get_global_default("company")
+		settings.default_currency = (
+			frappe.get_cached_value("Company", company, "default_currency") if company else None
+		) or "BDT"
 		settings.default_timezone = "Asia/Dhaka"
 		settings.default_language = "bn"
 		settings.save()

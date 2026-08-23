@@ -1,7 +1,7 @@
 frappe.pages["easy-sale"].on_page_load = function (wrapper) {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("সহজ বিক্রয়"), single_column: true });
 	page.main.addClass("easy-erp-page easy-sale-page");
-	const state = { items: [], context: null, request_id: request_id() };
+	const state = { items: [], context: null, currency: null, request_id: request_id() };
 	page.main.html(`<div class="easy-transaction-shell">
 		<header class="easy-transaction-header"><button class="btn btn-default easy-back-to-list invoice-list"><span aria-hidden="true">←</span>${__("বিক্রয় তালিকায় ফিরুন")}</button>
 		<div><span>${__("বিক্রয়")}</span><h2>${__("নতুন বিক্রয়")}</h2><p>${__("ক্রেতা ও পণ্য নির্বাচন করে পেমেন্ট নিশ্চিত করুন")}</p></div></header>
@@ -13,7 +13,7 @@ frappe.pages["easy-sale"].on_page_load = function (wrapper) {
 			<div class="easy-cart"></div></section>
 		<section class="easy-transaction-section"><h3><b>৩</b>${__("পেমেন্ট")}</h3><div class="easy-transaction-grid">
 			<div class="paid-control"></div><div class="payment-mode-control"></div><div class="reference-control"></div></div>
-			<div class="easy-totals"><div><span>${__("মোট")}</span><strong class="grand-total">৳ 0.00</strong></div><div><span>${__("পরিশোধ")}</span><strong class="paid-total">৳ 0.00</strong></div><div class="is-due"><span>${__("বাকি")}</span><strong class="due-total">৳ 0.00</strong></div></div></section>
+			<div class="easy-totals"><div><span>${__("মোট")}</span><strong class="grand-total">0.00</strong></div><div><span>${__("পরিশোধ")}</span><strong class="paid-total">0.00</strong></div><div class="is-due"><span>${__("বাকি")}</span><strong class="due-total">0.00</strong></div></div></section>
 		<footer class="easy-transaction-footer"><button class="btn btn-default save-draft">${__("খসড়া রাখুন")}</button><button class="btn btn-primary btn-lg submit-sale">${__("বিক্রয় সম্পন্ন করুন")}</button></footer>
 	</div>`);
 	const controls = make_sale_controls(page.main);
@@ -21,12 +21,14 @@ frappe.pages["easy-sale"].on_page_load = function (wrapper) {
 	bind_sale_events(page.main, controls, state);
 	frappe.call("reckon_easy_erp.sales_api.get_sales_context").then(({ message }) => {
 		state.context = message;
+		state.currency = message.currency;
 		controls.posting_date.set_value(message.posting_date);
 		controls.warehouse.set_value(message.warehouse);
 		controls.payment_mode.df.options = ["", ...message.payment_modes.map((row) => row.display_name)].join("\n");
 		controls.payment_mode.refresh();
 		if (message.payment_modes.length === 1) controls.payment_mode.set_value(message.payment_modes[0].display_name);
 		page.main.find(".walk-in").toggle(Boolean(message.walk_in_customer));
+		render_totals(page.main, controls, state);
 	});
 };
 
@@ -60,7 +62,7 @@ function bind_sale_events(container, controls, state) {
 function render_item_suggestions(container, state, rows) {
 	const target = container.find(".easy-item-suggestions");
 	if (!rows.length) return target.html(`<div>${__("কোনো পণ্য পাওয়া যায়নি")}</div>`).prop("hidden", false);
-	target.html(rows.map((row, index) => `<button data-index="${index}"><strong>${frappe.utils.escape_html(row.item_name)}</strong><span>${frappe.utils.escape_html(row.easy_erp_bangla_name || row.item_code)}</span><small>${frappe.utils.escape_html(row.stock_uom)} · ৳ ${format_money(row.rate)}</small></button>`).join("")).prop("hidden", false);
+	target.html(rows.map((row, index) => `<button data-index="${index}"><strong>${frappe.utils.escape_html(row.item_name)}</strong><span>${frappe.utils.escape_html(row.easy_erp_bangla_name || row.item_code)}</span><small>${frappe.utils.escape_html(row.stock_uom)} · ${reckon_easy_erp.format_currency(row.rate, state.currency)}</small></button>`).join("")).prop("hidden", false);
 	target.find("button").on("click", function () {
 		const row = rows[Number(this.dataset.index)];
 		const existing = state.items.find((item) => item.item_code === row.item_code);
@@ -76,13 +78,13 @@ function render_cart(container, state) {
 	const target = container.find(".easy-cart");
 	if (!state.items.length) return target.html(`<div class="easy-empty-cart">${__("এখনও কোনো পণ্য যোগ করা হয়নি")}</div>`);
 	target.html(`<div class="easy-cart-table"><div class="easy-cart-head"><span>${__("পণ্য")}</span><span>${__("পরিমাণ")}</span><span>${__("দর")}</span><span>${__("ছাড় %")}</span><span>${__("মোট")}</span><span></span></div>
-		${state.items.map((item, index) => `<div class="easy-cart-row" data-index="${index}"><span><strong>${frappe.utils.escape_html(item.item_name)}</strong><small>${frappe.utils.escape_html(item.item_code)}</small></span><input class="form-control qty" type="number" min="0.001" step="any" value="${item.qty}"><input class="form-control rate" type="number" min="0" step="any" value="${item.rate}"><input class="form-control discount" type="number" min="0" max="100" step="any" value="${item.discount_percentage}"><strong>৳ ${format_money(line_total(item))}</strong><button class="remove" aria-label="${__("মুছুন")}">×</button></div>`).join("")}</div>`);
+		${state.items.map((item, index) => `<div class="easy-cart-row" data-index="${index}"><span><strong>${frappe.utils.escape_html(item.item_name)}</strong><small>${frappe.utils.escape_html(item.item_code)}</small></span><input class="form-control qty" type="number" min="0.001" step="any" value="${item.qty}"><input class="form-control rate" type="number" min="0" step="any" value="${item.rate}"><input class="form-control discount" type="number" min="0" max="100" step="any" value="${item.discount_percentage}"><strong>${reckon_easy_erp.format_currency(line_total(item), state.currency)}</strong><button class="remove" aria-label="${__("মুছুন")}">×</button></div>`).join("")}</div>`);
 	target.find("input").on("change input", function () {
 		const row = $(this).closest(".easy-cart-row"); const item = state.items[Number(row.data("index"))];
 		if ($(this).hasClass("qty")) item.qty = Number(this.value || 0);
 		if ($(this).hasClass("rate")) item.rate = Number(this.value || 0);
 		if ($(this).hasClass("discount")) item.discount_percentage = Number(this.value || 0);
-		render_totals(container, null, state); row.find("> strong").text(`৳ ${format_money(line_total(item))}`);
+		render_totals(container, null, state); row.find("> strong").text(reckon_easy_erp.format_currency(line_total(item), state.currency));
 	});
 	target.find(".remove").on("click", function () { state.items.splice(Number($(this).closest(".easy-cart-row").data("index")), 1); render_cart(container, state); render_totals(container, null, state); });
 	render_totals(container, null, state);
@@ -91,7 +93,7 @@ function render_cart(container, state) {
 function render_totals(container, controls, state) {
 	const grand = state.items.reduce((sum, item) => sum + line_total(item), 0);
 	const paid = Number(controls?.paid_amount?.get_value() || container.find(".paid-control input").val() || 0);
-	container.find(".grand-total").text(`৳ ${format_money(grand)}`); container.find(".paid-total").text(`৳ ${format_money(paid)}`); container.find(".due-total").text(`৳ ${format_money(Math.max(grand - paid, 0))}`);
+	container.find(".grand-total").text(reckon_easy_erp.format_currency(grand, state.currency)); container.find(".paid-total").text(reckon_easy_erp.format_currency(paid, state.currency)); container.find(".due-total").text(reckon_easy_erp.format_currency(Math.max(grand - paid, 0), state.currency));
 }
 
 function save_sale(container, controls, state, submit) {
@@ -106,5 +108,4 @@ function save_sale(container, controls, state, submit) {
 }
 
 function line_total(item) { return Number(item.qty || 0) * Number(item.rate || 0) * (1 - Number(item.discount_percentage || 0) / 100); }
-function format_money(value) { return Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 function request_id() { return globalThis.crypto?.randomUUID?.() || `easy-${Date.now()}-${Math.random().toString(16).slice(2)}`; }

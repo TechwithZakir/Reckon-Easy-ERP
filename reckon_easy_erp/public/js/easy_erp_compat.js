@@ -5,6 +5,13 @@ reckon_easy_erp.request_id = () => globalThis.crypto?.randomUUID?.()
 reckon_easy_erp.format_money = (value) => Number(value || 0).toLocaleString(
 	undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }
 );
+reckon_easy_erp.format_currency = (value, currency) => {
+	try {
+		return new Intl.NumberFormat(undefined, { style: "currency", currency: currency || "BDT" }).format(Number(value || 0));
+	} catch (_error) {
+		return `${currency || ""} ${reckon_easy_erp.format_money(value)}`.trim();
+	}
+};
 
 reckon_easy_erp.guard_autocomplete = (container) => {
 	const root = container?.get?.(0) || container;
@@ -12,7 +19,7 @@ reckon_easy_erp.guard_autocomplete = (container) => {
 	root.dataset.easyAutocompleteGuard = "1";
 	let frame;
 	let observer;
-	const observation = { subtree: true, childList: true, attributes: true, attributeFilter: ["class", "style", "aria-expanded"] };
+	const observation = { subtree: true, childList: true, attributes: true, attributeFilter: ["class", "style", "hidden", "aria-expanded"] };
 	const refresh = () => {
 		cancelAnimationFrame(frame);
 		frame = requestAnimationFrame(() => {
@@ -21,7 +28,7 @@ reckon_easy_erp.guard_autocomplete = (container) => {
 				section.classList.remove("has-open-autocomplete");
 				section.style.removeProperty("--easy-autocomplete-space");
 			});
-			root.querySelectorAll(".awesomplete > ul, .autocomplete-items, .frappe-control .dropdown-menu").forEach((menu) => {
+			root.querySelectorAll(".awesomplete > ul, .autocomplete-items, .frappe-control .dropdown-menu, .easy-item-suggestions").forEach((menu) => {
 				if (!menu.getClientRects().length || getComputedStyle(menu).visibility === "hidden" || !menu.children.length) return;
 				const section = menu.closest(".easy-transaction-section, .easy-entry-section");
 				if (!section) return;

@@ -22,8 +22,24 @@ def get_sales_context() -> dict[str, Any]:
 		order_by="display_name asc",
 		limit_page_length=50,
 	)
+	if not payment_modes:
+		mode_filters = {"enabled": 1} if frappe.get_meta("Mode of Payment").has_field("enabled") else {}
+		for mode in frappe.get_all("Mode of Payment", filters=mode_filters, fields=["name", "type"], order_by="name asc"):
+			account = frappe.db.get_value(
+				"Mode of Payment Account", {"parent": mode.name, "company": context["company"]}, "default_account"
+			)
+			if account:
+				payment_modes.append(frappe._dict({
+					"name": mode.name,
+					"display_name": mode.name,
+					"payment_kind": mode.get("type") or "Other",
+					"mode_of_payment": mode.name,
+					"account": account,
+					"is_standard_mode": 1,
+				}))
 	return {
 		"company": context["company"],
+		"currency": frappe.get_cached_value("Company", context["company"], "default_currency"),
 		"warehouse": context["warehouse"],
 		"walk_in_customer": settings.walk_in_customer,
 		"selling_price_list": settings.default_selling_price_list,
@@ -275,9 +291,20 @@ def _apply_payment_mode(pe, values: dict[str, Any], company: str, request_id: st
 			pluck="name",
 			limit_page_length=1,
 		)
-		if not matching:
-			frappe.throw(_("The selected payment method is not configured."))
-		mapping_name = matching[0]
+		if matching:
+			mapping_name = matching[0]
+		else:
+			account = frappe.db.get_value(
+				"Mode of Payment Account", {"parent": mapping_name, "company": company}, "default_account"
+			)
+			if not frappe.db.exists("Mode of Payment", mapping_name) or not account:
+				frappe.throw(_("The selected payment method is not configured for this company."))
+			pe.mode_of_payment = mapping_name
+			pe.paid_to = account
+			pe.paid_to_account_currency = frappe.get_cached_value("Account", account, "account_currency")
+			pe.reference_no = clean_text(values.get("payment_reference"), 140) or request_id[:140]
+			pe.reference_date = values.get("posting_date") or nowdate()
+			return
 	mapping = frappe.get_doc("Easy ERP Payment Mode Mapping", mapping_name)
 	mapping.check_permission("read")
 	if not mapping.enabled or mapping.company != company:
