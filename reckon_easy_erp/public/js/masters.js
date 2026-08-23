@@ -24,7 +24,7 @@ reckon_easy_erp.make_master_page = function ({ wrapper, title, doctype, search_m
 	let timer;
 	search.$input.on("input", () => {
 		clearTimeout(timer);
-		timer = setTimeout(() => load_results(page.main, search_method, search.get_value(), search), 250);
+		timer = setTimeout(() => load_results(page.main, search_method, search.get_value(), doctype), 250);
 	});
 	search.$input.on("focus", () => {
 		if (search.get_value()) page.main.find(".easy-erp-search-dropdown").prop("hidden", false);
@@ -34,11 +34,11 @@ reckon_easy_erp.make_master_page = function ({ wrapper, title, doctype, search_m
 			page.main.find(".easy-erp-search-dropdown").prop("hidden", true);
 		}
 	});
-	page.main.find(".easy-erp-new").on("click", () => show_create_dialog({ title, create_method, fields, refresh: () => load_results(page.main, search_method, search.get_value()) }));
-	load_results(page.main, search_method, "");
+	page.main.find(".easy-erp-new").on("click", () => show_create_dialog({ title, create_method, fields, refresh: () => load_results(page.main, search_method, search.get_value(), doctype) }));
+	load_results(page.main, search_method, "", doctype);
 };
 
-function load_results(container, method, query) {
+function load_results(container, method, query, doctype) {
 	const target = container.find(".easy-erp-results").html(`<div class="easy-erp-loading">${__("Loading...")}</div>`);
 	frappe.call(method, { query }).then(({ message }) => {
 		const rows = message || [];
@@ -48,30 +48,36 @@ function load_results(container, method, query) {
 			render_dropdown(container, [], query);
 			return;
 		}
-		target.html(rows.map(result_card).join(""));
+		target.html(render_table(rows, doctype));
 		render_dropdown(container, rows, query);
 	});
 }
 
-function result_card(row) {
-	const title = row.display_name || row.item_name || row.name;
-	const initial = Array.from(title.trim())[0] || "•";
-	const details = [
-		["phone", row.mobile_no],
-		["folder-normal", row.group || row.item_group],
-		["user", row.type],
-		["tag", row.stock_uom],
-	].filter((entry) => entry[1]);
-	return `<article class="easy-erp-result">
-		<div class="easy-erp-result-avatar">${frappe.utils.escape_html(initial.toUpperCase())}</div>
-		<div class="easy-erp-result-body">
-			<div class="easy-erp-result-title"><strong>${frappe.utils.escape_html(title)}</strong>
-				${row.easy_erp_bangla_name ? `<span>${frappe.utils.escape_html(row.easy_erp_bangla_name)}</span>` : ""}</div>
-			<div class="easy-erp-result-details">${details.map(([icon, value]) =>
-				`<span>${frappe.utils.icon(icon, "sm")}${frappe.utils.escape_html(value)}</span>`).join("")}</div>
-			<small>${__("রেকর্ড আইডি")}: ${frappe.utils.escape_html(row.item_code || row.name)}</small>
-		</div>
-	</article>`;
+function render_table(rows, doctype) {
+	const is_item = doctype === "Item";
+	const columns = is_item
+		? [
+			[__("Item Name"), (row) => row.item_name],
+			[__("Bangla Item Name"), (row) => row.easy_erp_bangla_name],
+			[__("Item Code"), (row) => row.item_code || row.name],
+			[__("Item Group"), (row) => row.item_group],
+			[__("Unit"), (row) => row.stock_uom],
+		]
+		: [
+			[__("Name"), (row) => row.display_name],
+			[__("Mobile Number"), (row) => row.mobile_no],
+			[__("Group"), (row) => row.group],
+			[__("Type"), (row) => row.type],
+			[__("Record ID"), (row) => row.name],
+		];
+	const head = columns.map(([label]) => `<th scope="col">${frappe.utils.escape_html(label)}</th>`).join("");
+	const body = rows.map((row) => `<tr>${columns.map(([, get_value], index) => {
+		const value = get_value(row);
+		return `<td${index === 0 ? ' class="easy-erp-primary-cell"' : ""}>${value ? frappe.utils.escape_html(value) : '<span class="text-muted">—</span>'}</td>`;
+	}).join("")}</tr>`).join("");
+	return `<div class="easy-erp-table-wrap"><table class="easy-erp-table">
+		<thead><tr>${head}</tr></thead><tbody>${body}</tbody>
+	</table></div>`;
 }
 
 function render_dropdown(container, rows, query) {
