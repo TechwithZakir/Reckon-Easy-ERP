@@ -39,8 +39,7 @@ add_to_apps_screen = [
 	}
 ]
 
-app_include_css = ["easy_erp.bundle.css"]
-app_include_js = ["easy_erp.bundle.js"]
+app_include_css = ["/assets/reckon_easy_erp/css/easy_erp.css?v=0.3.1"]
 
 permission_query_conditions = {
 	"Easy ERP User Access": "reckon_easy_erp.permissions.user_access_query",
