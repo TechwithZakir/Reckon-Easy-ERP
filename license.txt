@@ -1,0 +1,4 @@
+Copyright (c) Reckon Technologies Ltd.
+
+All rights reserved. Use and distribution are governed by the commercial
+license agreement supplied by Reckon Technologies Ltd.

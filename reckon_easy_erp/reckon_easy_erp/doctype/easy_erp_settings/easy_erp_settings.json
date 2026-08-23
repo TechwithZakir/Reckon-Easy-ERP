@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-08-23 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "localization_section", "default_language", "default_country", "default_currency", "default_timezone",
+  "sales_section", "walk_in_customer", "default_company", "default_selling_price_list", "default_buying_price_list",
+  "features_section", "enable_sales", "enable_purchase", "enable_stock", "enable_hr", "enable_payroll",
+  "support_section", "support_mobile", "setup_complete"
+ ],
+ "fields": [
+  {"fieldname": "localization_section", "fieldtype": "Section Break", "label": "Localization"},
+  {"default": "bn", "fieldname": "default_language", "fieldtype": "Select", "label": "Default Language", "options": "bn\nen", "reqd": 1},
+  {"default": "Bangladesh", "fieldname": "default_country", "fieldtype": "Link", "label": "Default Country", "options": "Country", "reqd": 1},
+  {"default": "BDT", "fieldname": "default_currency", "fieldtype": "Link", "label": "Default Currency", "options": "Currency", "reqd": 1},
+  {"default": "Asia/Dhaka", "fieldname": "default_timezone", "fieldtype": "Data", "label": "Default Timezone", "reqd": 1},
+  {"fieldname": "sales_section", "fieldtype": "Section Break", "label": "Business Defaults"},
+  {"fieldname": "walk_in_customer", "fieldtype": "Link", "label": "Walk-in Customer", "options": "Customer"},
+  {"fieldname": "default_company", "fieldtype": "Link", "label": "Default Company", "options": "Company"},
+  {"fieldname": "default_selling_price_list", "fieldtype": "Link", "label": "Default Selling Price List", "options": "Price List"},
+  {"fieldname": "default_buying_price_list", "fieldtype": "Link", "label": "Default Buying Price List", "options": "Price List"},
+  {"fieldname": "features_section", "fieldtype": "Section Break", "label": "Features"},
+  {"default": "1", "fieldname": "enable_sales", "fieldtype": "Check", "label": "Enable Sales"},
+  {"default": "1", "fieldname": "enable_purchase", "fieldtype": "Check", "label": "Enable Purchase"},
+  {"default": "1", "fieldname": "enable_stock", "fieldtype": "Check", "label": "Enable Stock"},
+  {"default": "1", "fieldname": "enable_hr", "fieldtype": "Check", "label": "Enable HR"},
+  {"default": "1", "fieldname": "enable_payroll", "fieldtype": "Check", "label": "Enable Payroll"},
+  {"fieldname": "support_section", "fieldtype": "Section Break", "label": "Support"},
+  {"fieldname": "support_mobile", "fieldtype": "Data", "label": "Support Mobile"},
+  {"default": "0", "fieldname": "setup_complete", "fieldtype": "Check", "hidden": 1, "label": "Setup Complete", "read_only": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-08-23 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Reckon Easy ERP",
+ "name": "Easy ERP Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1},
+  {"read": 1, "role": "System Manager", "write": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

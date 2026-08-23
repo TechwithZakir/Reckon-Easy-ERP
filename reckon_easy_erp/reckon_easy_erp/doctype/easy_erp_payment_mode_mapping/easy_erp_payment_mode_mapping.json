@@ -1,0 +1,15 @@
+{
+ "actions": [], "allow_rename": 1, "autoname": "format:{company}-{display_name}", "creation": "2026-08-23 00:00:00.000000", "doctype": "DocType", "engine": "InnoDB",
+ "field_order": ["display_name", "payment_kind", "mode_of_payment", "company", "account", "enabled"],
+ "fields": [
+  {"fieldname": "display_name", "fieldtype": "Data", "in_list_view": 1, "label": "Display Name", "reqd": 1},
+  {"fieldname": "payment_kind", "fieldtype": "Select", "in_list_view": 1, "label": "Payment Kind", "options": "Cash\nBank Transfer\nbKash\nNagad\nRocket\nCheque\nOther", "reqd": 1},
+  {"fieldname": "mode_of_payment", "fieldtype": "Link", "label": "Mode of Payment", "options": "Mode of Payment", "reqd": 1},
+  {"fieldname": "company", "fieldtype": "Link", "in_list_view": 1, "label": "Company", "options": "Company", "reqd": 1},
+  {"fieldname": "account", "fieldtype": "Link", "label": "Account", "options": "Account", "reqd": 1},
+  {"default": "1", "fieldname": "enabled", "fieldtype": "Check", "in_list_view": 1, "label": "Enabled"}
+ ],
+ "index_web_pages_for_search": 0, "links": [], "modified": "2026-08-23 00:00:00.000000", "modified_by": "Administrator", "module": "Reckon Easy ERP", "name": "Easy ERP Payment Mode Mapping", "owner": "Administrator",
+ "permissions": [{"create": 1, "delete": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1}, {"create": 1, "delete": 1, "read": 1, "role": "System Manager", "write": 1}],
+ "sort_field": "modified", "sort_order": "DESC", "states": [], "track_changes": 1
+}

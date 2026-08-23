@@ -1,0 +1,11 @@
+[
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Operator", "role_name": "Easy ERP Operator"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Sales User", "role_name": "Easy ERP Sales User"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Purchase User", "role_name": "Easy ERP Purchase User"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Stock User", "role_name": "Easy ERP Stock User"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP HR User", "role_name": "Easy ERP HR User"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Payroll User", "role_name": "Easy ERP Payroll User"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Manager", "role_name": "Easy ERP Manager"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Owner", "role_name": "Easy ERP Owner"},
+ {"desk_access": 1, "doctype": "Role", "name": "Easy ERP Administrator", "role_name": "Easy ERP Administrator"}
+]

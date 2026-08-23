@@ -1,0 +1,29 @@
+{
+ "actions": [], "allow_rename": 0, "autoname": "field:user", "creation": "2026-08-23 00:00:00.000000",
+ "doctype": "DocType", "engine": "InnoDB",
+ "field_order": ["user", "enabled", "context_section", "company", "branch", "default_warehouse", "default_account", "employee", "limits_section", "maximum_discount_percentage", "can_view_purchase_price", "can_view_cost_and_profit", "can_submit", "can_cancel", "can_export", "can_view_reports"],
+ "fields": [
+  {"fieldname": "user", "fieldtype": "Link", "in_list_view": 1, "label": "User", "options": "User", "reqd": 1, "unique": 1},
+  {"default": "1", "fieldname": "enabled", "fieldtype": "Check", "in_list_view": 1, "label": "Enabled"},
+  {"fieldname": "context_section", "fieldtype": "Section Break", "label": "Business Context"},
+  {"fieldname": "company", "fieldtype": "Link", "in_list_view": 1, "label": "Company", "options": "Company", "reqd": 1},
+  {"fieldname": "branch", "fieldtype": "Link", "label": "Branch", "options": "Branch"},
+  {"fieldname": "default_warehouse", "fieldtype": "Link", "label": "Default Warehouse", "options": "Warehouse"},
+  {"fieldname": "default_account", "fieldtype": "Link", "label": "Default Cash or Bank Account", "options": "Account"},
+  {"fieldname": "employee", "fieldtype": "Link", "label": "Employee", "options": "Employee"},
+  {"fieldname": "limits_section", "fieldtype": "Section Break", "label": "Capabilities"},
+  {"default": "0", "fieldname": "maximum_discount_percentage", "fieldtype": "Percent", "label": "Maximum Discount Percentage"},
+  {"default": "0", "fieldname": "can_view_purchase_price", "fieldtype": "Check", "label": "Can View Purchase Price"},
+  {"default": "0", "fieldname": "can_view_cost_and_profit", "fieldtype": "Check", "label": "Can View Cost and Profit"},
+  {"default": "0", "fieldname": "can_submit", "fieldtype": "Check", "label": "Can Submit"},
+  {"default": "0", "fieldname": "can_cancel", "fieldtype": "Check", "label": "Can Cancel"},
+  {"default": "0", "fieldname": "can_export", "fieldtype": "Check", "label": "Can Export"},
+  {"default": "0", "fieldname": "can_view_reports", "fieldtype": "Check", "label": "Can View Reports"}
+ ],
+ "index_web_pages_for_search": 0, "links": [], "modified": "2026-08-23 00:00:00.000000", "modified_by": "Administrator", "module": "Reckon Easy ERP", "name": "Easy ERP User Access", "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1},
+  {"create": 1, "delete": 1, "read": 1, "role": "System Manager", "write": 1}
+ ],
+ "sort_field": "modified", "sort_order": "DESC", "states": [], "title_field": "user", "track_changes": 1
+}

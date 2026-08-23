@@ -1,0 +1,26 @@
+[build-system]
+requires = ["flit_core>=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "reckon_easy_erp"
+authors = [{ name = "Reckon Technologies Ltd." }]
+description = "Bangladesh-first simplified business workflows for ERPNext and HRMS"
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = []
+
+[tool.bench.frappe-dependencies]
+frappe = ">=15.0.0-dev"
+erpnext = ">=15.0.0-dev"
+hrms = ">=15.0.0-dev"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+addopts = "-q"

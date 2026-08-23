@@ -1,0 +1,16 @@
+{
+ "actions": [], "allow_rename": 1, "autoname": "format:{company}-{branch}", "creation": "2026-08-23 00:00:00.000000", "doctype": "DocType", "engine": "InnoDB",
+ "field_order": ["company", "branch", "defaults_section", "default_warehouse", "default_cost_center", "default_cash_account", "default_bank_account"],
+ "fields": [
+  {"fieldname": "company", "fieldtype": "Link", "in_list_view": 1, "label": "Company", "options": "Company", "reqd": 1},
+  {"fieldname": "branch", "fieldtype": "Link", "in_list_view": 1, "label": "Branch", "options": "Branch", "reqd": 1},
+  {"fieldname": "defaults_section", "fieldtype": "Section Break", "label": "Defaults"},
+  {"fieldname": "default_warehouse", "fieldtype": "Link", "label": "Default Warehouse", "options": "Warehouse", "reqd": 1},
+  {"fieldname": "default_cost_center", "fieldtype": "Link", "label": "Default Cost Center", "options": "Cost Center"},
+  {"fieldname": "default_cash_account", "fieldtype": "Link", "label": "Default Cash Account", "options": "Account"},
+  {"fieldname": "default_bank_account", "fieldtype": "Link", "label": "Default Bank Account", "options": "Account"}
+ ],
+ "index_web_pages_for_search": 0, "links": [], "modified": "2026-08-23 00:00:00.000000", "modified_by": "Administrator", "module": "Reckon Easy ERP", "name": "Easy ERP Branch Settings", "owner": "Administrator",
+ "permissions": [{"create": 1, "delete": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1}, {"create": 1, "delete": 1, "read": 1, "role": "System Manager", "write": 1}],
+ "sort_field": "modified", "sort_order": "DESC", "states": [], "track_changes": 1
+}

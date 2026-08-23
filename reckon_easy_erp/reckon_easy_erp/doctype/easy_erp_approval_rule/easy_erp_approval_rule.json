@@ -1,0 +1,16 @@
+{
+ "actions": [], "allow_rename": 1, "autoname": "format:{company}-{action}-{role}", "creation": "2026-08-23 00:00:00.000000", "doctype": "DocType", "engine": "InnoDB",
+ "field_order": ["company", "branch", "action", "role", "threshold", "approver_role", "enabled"],
+ "fields": [
+  {"fieldname": "company", "fieldtype": "Link", "in_list_view": 1, "label": "Company", "options": "Company", "reqd": 1},
+  {"fieldname": "branch", "fieldtype": "Link", "label": "Branch", "options": "Branch"},
+  {"fieldname": "action", "fieldtype": "Select", "in_list_view": 1, "label": "Action", "options": "Sales Discount\nPurchase Rate Variance\nExpense Amount\nStock Adjustment\nTransaction Cancellation\nPayroll Submission\nSalary Payment\nData Export", "reqd": 1},
+  {"fieldname": "role", "fieldtype": "Link", "label": "Applies to Role", "options": "Role", "reqd": 1},
+  {"default": "0", "fieldname": "threshold", "fieldtype": "Float", "label": "Threshold", "non_negative": 1, "reqd": 1},
+  {"fieldname": "approver_role", "fieldtype": "Link", "label": "Approver Role", "options": "Role", "reqd": 1},
+  {"default": "1", "fieldname": "enabled", "fieldtype": "Check", "in_list_view": 1, "label": "Enabled"}
+ ],
+ "index_web_pages_for_search": 0, "links": [], "modified": "2026-08-23 00:00:00.000000", "modified_by": "Administrator", "module": "Reckon Easy ERP", "name": "Easy ERP Approval Rule", "owner": "Administrator",
+ "permissions": [{"create": 1, "delete": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1}, {"create": 1, "delete": 1, "read": 1, "role": "System Manager", "write": 1}],
+ "sort_field": "modified", "sort_order": "DESC", "states": [], "track_changes": 1
+}
