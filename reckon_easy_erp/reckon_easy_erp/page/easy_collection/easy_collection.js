@@ -1,7 +1,7 @@
 frappe.pages["easy-collection"].on_page_load = function (wrapper) {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("সহজ টাকা গ্রহণ"), single_column: true });
 	page.main.addClass("easy-erp-page").html(`<div class="easy-transaction-shell easy-collection-shell">
-		<header class="easy-transaction-header"><div><span>${__("আদায়")}</span><h2>${__("ক্রেতার টাকা গ্রহণ")}</h2><p>${__("বকেয়া বিক্রয় নির্বাচন করে টাকা গ্রহণ করুন")}</p></div><button class="btn btn-default payment-list">${__("পেমেন্ট তালিকা")}</button></header>
+		<header class="easy-transaction-header"><button class="btn btn-default easy-back-to-list payment-list"><span aria-hidden="true">←</span>${__("পেমেন্ট তালিকায় ফিরুন")}</button><div><span>${__("আদায়")}</span><h2>${__("ক্রেতার টাকা গ্রহণ")}</h2><p>${__("বকেয়া বিক্রয় নির্বাচন করে টাকা গ্রহণ করুন")}</p></div></header>
 		<section class="easy-transaction-section"><h3><b>১</b>${__("ক্রেতা নির্বাচন")}</h3><div class="easy-collection-customer"><div class="customer-control"></div><button class="btn btn-primary load-outstanding">${__("বকেয়া দেখুন")}</button></div><div class="outstanding-summary"></div></section>
 		<section class="easy-transaction-section"><h3><b>২</b>${__("বকেয়া বিক্রয়")}</h3><div class="invoice-selection"><div class="easy-empty-cart">${__("প্রথমে ক্রেতা নির্বাচন করুন")}</div></div></section>
 		<section class="easy-transaction-section"><h3><b>৩</b>${__("প্রাপ্ত টাকা")}</h3><div class="easy-transaction-grid"><div class="amount-control"></div><div class="mode-control"></div><div class="reference-control"></div></div></section>

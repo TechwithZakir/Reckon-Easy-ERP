@@ -4,8 +4,8 @@ reckon_easy_erp.make_entry_page = function ({ wrapper, title, subtitle, list_rou
 	const page = frappe.ui.make_app_page({ parent: wrapper, title: __(title), single_column: true });
 	page.main.addClass("easy-erp-page easy-entry-page");
 	page.main.html(`<div class="easy-entry-shell">
-		<header class="easy-entry-header"><div><span>${__("সহজ এন্ট্রি")}</span><h2>${__(title)}</h2><p>${__(subtitle)}</p></div>
-		<button class="btn btn-default easy-entry-list">${__("তালিকা দেখুন")}</button></header>
+		<header class="easy-entry-header"><button class="btn btn-default easy-back-to-list easy-entry-list"><span aria-hidden="true">←</span>${__("তালিকায় ফিরুন")}</button>
+		<div><span>${__("সহজ এন্ট্রি")}</span><h2>${__(title)}</h2><p>${__(subtitle)}</p></div></header>
 		<div class="easy-entry-form"></div>
 		<footer class="easy-entry-footer"><button class="btn btn-default easy-entry-cancel">${__("বাতিল")}</button>
 		<button class="btn btn-primary btn-lg easy-entry-save">${__("সংরক্ষণ করুন")}</button></footer>

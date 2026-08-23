@@ -3,8 +3,8 @@ frappe.pages["easy-sale"].on_page_load = function (wrapper) {
 	page.main.addClass("easy-erp-page easy-sale-page");
 	const state = { items: [], context: null, request_id: request_id() };
 	page.main.html(`<div class="easy-transaction-shell">
-		<header class="easy-transaction-header"><div><span>${__("বিক্রয়")}</span><h2>${__("নতুন বিক্রয়")}</h2><p>${__("ক্রেতা ও পণ্য নির্বাচন করে পেমেন্ট নিশ্চিত করুন")}</p></div>
-		<button class="btn btn-default invoice-list">${__("বিক্রয় তালিকা")}</button></header>
+		<header class="easy-transaction-header"><button class="btn btn-default easy-back-to-list invoice-list"><span aria-hidden="true">←</span>${__("বিক্রয় তালিকায় ফিরুন")}</button>
+		<div><span>${__("বিক্রয়")}</span><h2>${__("নতুন বিক্রয়")}</h2><p>${__("ক্রেতা ও পণ্য নির্বাচন করে পেমেন্ট নিশ্চিত করুন")}</p></div></header>
 		<section class="easy-transaction-section"><h3><b>১</b>${__("ক্রেতা")}</h3><div class="easy-transaction-grid">
 			<div class="customer-control"></div><div class="date-control"></div><div class="warehouse-control"></div></div>
 			<button class="btn btn-xs btn-default walk-in">${__("ওয়াক-ইন ক্রেতা")}</button></section>
