@@ -53,6 +53,37 @@
 .easy-erp-action .icon { color: var(--easy-erp-primary); }
 .easy-erp-loading { padding: 48px 16px; text-align: center; color: var(--text-muted); }
 
+.easy-erp-master-toolbar {
+	display: flex;
+	align-items: flex-end;
+	gap: 12px;
+	margin-bottom: 18px;
+}
+
+.easy-erp-master-search { flex: 1; }
+.easy-erp-master-search .form-group { margin-bottom: 0; }
+
+.easy-erp-results {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 10px;
+}
+
+.easy-erp-result {
+	min-height: 78px;
+	padding: 15px;
+	border: 1px solid var(--easy-erp-border);
+	border-radius: 10px;
+	background: var(--easy-erp-surface);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.easy-erp-result strong { font-size: 16px; }
+.easy-erp-result span { color: var(--text-muted); }
+.easy-erp-empty { grid-column: 1 / -1; padding: 40px 16px; text-align: center; color: var(--text-muted); }
+
 .easy-erp-setup-card {
 	max-width: 680px;
 	padding: 24px;
@@ -81,4 +112,7 @@
 	.easy-erp-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 	.easy-erp-action { min-height: 104px; padding: 14px 12px; font-size: 15px; }
 	.easy-erp-welcome { align-items: flex-start; flex-direction: column; }
+	.easy-erp-master-toolbar { align-items: stretch; flex-direction: column; }
+	.easy-erp-master-toolbar .easy-erp-new { min-height: 48px; width: 100%; }
+	.easy-erp-results { grid-template-columns: 1fr; }
 }

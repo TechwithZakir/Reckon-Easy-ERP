@@ -33,3 +33,11 @@ bench --site test.local run-tests --app reckon_easy_erp
 
 See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for the supported-version policy
 and development gates.
+
+## Implementation status
+
+- Phase 1: foundation, configuration, roles, Workspace, setup and Bangla dashboard
+- Phase 2: simplified Customer, Supplier and Item masters implemented; live Bench verification required
+
+Phase 2 deployment and acceptance checks are documented in
+[docs/PHASE_2.md](docs/PHASE_2.md).

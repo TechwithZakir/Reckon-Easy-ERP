@@ -25,6 +25,8 @@ fixtures = [
 			"Easy ERP Administrator",
 		]]],
 	},
+	{"dt": "Custom Field", "filters": [["fieldname", "like", "easy_erp_%"]]},
+	{"dt": "Custom DocPerm", "filters": [["role", "like", "Easy ERP%"]]},
 ]
 
 add_to_apps_screen = [
@@ -38,6 +40,7 @@ add_to_apps_screen = [
 ]
 
 app_include_css = ["/assets/reckon_easy_erp/css/easy_erp.css"]
+app_include_js = ["/assets/reckon_easy_erp/js/masters.js"]
 
 permission_query_conditions = {
 	"Easy ERP User Access": "reckon_easy_erp.permissions.user_access_query",

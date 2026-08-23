@@ -30,3 +30,31 @@ The default account must belong to the selected company.,ডিফল্ট অ�
 ছুটি,ছুটি
 বেতন তৈরি করুন,বেতন তৈরি করুন
 রিপোর্ট,রিপোর্ট
+Customers,ক্রেতা
+Suppliers,সরবরাহকারী
+Products,পণ্য
+ক্রেতা,ক্রেতা
+সরবরাহকারী,সরবরাহকারী
+পণ্য,পণ্য
+নতুন যোগ করুন,নতুন যোগ করুন
+"নাম, মোবাইল বা বারকোড দিয়ে খুঁজুন",নাম মোবাইল বা বারকোড দিয়ে খুঁজুন
+কোনো তথ্য পাওয়া যায়নি,কোনো তথ্য পাওয়া যায়নি
+নতুন {0},নতুন {0}
+সংরক্ষণ করুন,সংরক্ষণ করুন
+{0} তৈরি হয়েছে,{0} তৈরি হয়েছে
+নাম,নাম
+মোবাইল নম্বর,মোবাইল নম্বর
+ধরন,ধরন
+Bangla Item Name,বাংলা পণ্যের নাম
+Unit,একক
+Barcode,বারকোড
+Prices and Opening Stock,দাম ও প্রারম্ভিক স্টক
+Sales Price,বিক্রয় মূল্য
+Purchase Price,ক্রয় মূল্য
+Opening Quantity,প্রারম্ভিক পরিমাণ
+Valuation Rate,মূল্যায়ন দর
+Batch and Expiry,ব্যাচ ও মেয়াদ
+Track Batch,ব্যাচ অনুসরণ করুন
+Track Expiry Date,মেয়াদ অনুসরণ করুন
+Ask an administrator to configure your Easy ERP access.,আপনার ইজি ইআরপি অ্যাক্সেস কনফিগার করতে অ্যাডমিনিস্ট্রেটরকে বলুন।
+Your Easy ERP access is disabled.,আপনার ইজি ইআরপি অ্যাক্সেস বন্ধ আছে।

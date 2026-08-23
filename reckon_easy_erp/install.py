@@ -28,18 +28,30 @@ def ensure_role_profiles() -> None:
 		"Easy ERP Stock": ["Easy ERP Operator", "Easy ERP Stock User"],
 		"Easy ERP HR": ["Easy ERP Operator", "Easy ERP HR User"],
 		"Easy ERP Payroll": ["Easy ERP Operator", "Easy ERP Payroll User"],
-		"Easy ERP Manager": ["Easy ERP Operator", "Easy ERP Manager"],
+		"Easy ERP Manager": [
+			"Easy ERP Operator", "Easy ERP Sales User", "Easy ERP Purchase User", "Easy ERP Stock User",
+			"Easy ERP HR User", "Easy ERP Payroll User", "Easy ERP Manager",
+		],
 		"Easy ERP Owner": ["Easy ERP Operator", "Easy ERP Owner"],
-		"Easy ERP Administrator": ["Easy ERP Operator", "Easy ERP Administrator"],
+		"Easy ERP Administrator": [
+			"Easy ERP Operator", "Easy ERP Sales User", "Easy ERP Purchase User", "Easy ERP Stock User",
+			"Easy ERP HR User", "Easy ERP Payroll User", "Easy ERP Administrator",
+		],
 	}
 	for profile_name, roles in profiles.items():
 		if frappe.db.exists("Role Profile", profile_name):
-			continue
-		doc = frappe.new_doc("Role Profile")
-		doc.role_profile = profile_name
+			doc = frappe.get_doc("Role Profile", profile_name)
+		else:
+			doc = frappe.new_doc("Role Profile")
+			doc.role_profile = profile_name
+		existing_roles = {row.role for row in doc.roles}
+		changed = doc.is_new()
 		for role in roles:
-			doc.append("roles", {"role": role})
-		doc.insert()
+			if role not in existing_roles:
+				doc.append("roles", {"role": role})
+				changed = True
+		if changed:
+			doc.save()
 
 
 def ensure_settings() -> None:

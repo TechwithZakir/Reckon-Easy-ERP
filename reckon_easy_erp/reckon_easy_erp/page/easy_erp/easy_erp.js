@@ -11,6 +11,9 @@ function render_loading(container) {
 
 function render_dashboard(container, context) {
 	const actions = [
+		["users", __("ক্রেতা"), "easy-customers", "sales"],
+		["organization", __("সরবরাহকারী"), "easy-suppliers", "purchase"],
+		["package", __("পণ্য"), "easy-items", "stock"],
 		["cart", __("বিক্রয় করুন"), "easy-sale", "sales"],
 		["credit-card", __("টাকা গ্রহণ করুন"), "easy-collection", "sales"],
 		["shopping-bag", __("পণ্য কিনুন"), "easy-purchase", "purchase"],
