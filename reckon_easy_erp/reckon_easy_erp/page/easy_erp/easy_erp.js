@@ -11,9 +11,9 @@ function render_loading(container) {
 
 function render_dashboard(container, context) {
 	const actions = [
-		{ symbol: "👥", label: __("ক্রেতা"), hint: __("ক্রেতা খুঁজুন বা যোগ করুন"), route: "customer", feature: "sales", group: "masters", ready: true },
-		{ symbol: "🏢", label: __("সরবরাহকারী"), hint: __("সরবরাহকারী পরিচালনা করুন"), route: "supplier", feature: "purchase", group: "masters", ready: true },
-		{ symbol: "📦", label: __("পণ্য"), hint: __("পণ্য, দাম ও বারকোড"), route: "item", feature: "stock", group: "masters", ready: true },
+		{ symbol: "👥", label: __("ক্রেতা"), hint: __("ক্রেতা খুঁজুন বা যোগ করুন"), route: "customer", entry: "easy-customer-entry", feature: "sales", group: "masters", ready: true },
+		{ symbol: "🏢", label: __("সরবরাহকারী"), hint: __("সরবরাহকারী পরিচালনা করুন"), route: "supplier", entry: "easy-supplier-entry", feature: "purchase", group: "masters", ready: true },
+		{ symbol: "📦", label: __("পণ্য"), hint: __("পণ্য, দাম ও বারকোড"), route: "item", entry: "easy-item-entry", feature: "stock", group: "masters", ready: true },
 		{ symbol: "🛒", label: __("বিক্রয় করুন"), hint: __("নতুন বিক্রয় তৈরি করুন"), route: "easy-sale", feature: "sales", group: "sales" },
 		{ symbol: "💵", label: __("টাকা গ্রহণ করুন"), hint: __("বকেয়া টাকা গ্রহণ করুন"), route: "easy-collection", feature: "sales", group: "sales" },
 		{ symbol: "🧾", label: __("খরচ লিখুন"), hint: __("ব্যবসার খরচ যোগ করুন"), route: "easy-expense", feature: "sales", group: "sales" },
@@ -52,7 +52,8 @@ function render_dashboard(container, context) {
 			${context.setup_complete ? "" : `<div class="easy-erp-notice"><span>⚙️</span><div><strong>${__("সেটআপ সম্পন্ন করুন")}</strong><p>${__("Easy ERP setup is not complete.")}</p></div></div>`}
 			${sections}
 		</div>`);
-	container.find(".easy-erp-action:not([disabled])").on("click", (event) => frappe.set_route(event.currentTarget.dataset.route));
+	container.find(".easy-erp-action-main:not([disabled])").on("click", (event) => frappe.set_route(event.currentTarget.dataset.route));
+	container.find(".easy-erp-quick-add").on("click", (event) => frappe.set_route(event.currentTarget.dataset.route));
 	container.find(".easy-erp-language").on("click", () => {
 		const language = context.language === "bn" ? "en" : "bn";
 		frappe.call("frappe.client.set_value", { doctype: "User", name: frappe.session.user, fieldname: "language", value: language })
@@ -61,9 +62,12 @@ function render_dashboard(container, context) {
 }
 
 function action_card(action) {
-	return `<button class="easy-erp-action${action.ready ? "" : " is-upcoming"}" data-route="${frappe.utils.escape_html(action.route)}" ${action.ready ? "" : "disabled"}>
-		<span class="easy-erp-action-symbol" aria-hidden="true">${action.symbol}</span>
-		<span class="easy-erp-action-copy"><strong>${frappe.utils.escape_html(action.label)}</strong><small>${frappe.utils.escape_html(action.hint)}</small></span>
-		${action.ready ? '<span class="easy-erp-action-arrow">→</span>' : `<span class="easy-erp-soon">${__("শীঘ্রই")}</span>`}
-	</button>`;
+	return `<article class="easy-erp-action${action.ready ? "" : " is-upcoming"}">
+		<button class="easy-erp-action-main" data-route="${frappe.utils.escape_html(action.route)}" ${action.ready ? "" : "disabled"}>
+			<span class="easy-erp-action-symbol" aria-hidden="true">${action.symbol}</span>
+			<span class="easy-erp-action-copy"><strong>${frappe.utils.escape_html(action.label)}</strong><small>${frappe.utils.escape_html(action.hint)}</small></span>
+			${action.ready ? '<span class="easy-erp-action-arrow">→</span>' : `<span class="easy-erp-soon">${__("শীঘ্রই")}</span>`}
+		</button>
+		${action.entry ? `<button class="easy-erp-quick-add" data-route="${frappe.utils.escape_html(action.entry)}"><span>＋</span>${__("সহজ এন্ট্রি")}</button>` : ""}
+	</article>`;
 }

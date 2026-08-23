@@ -5,10 +5,27 @@ import frappe
 from reckon_easy_erp.services.items import create_item as _create_item
 from reckon_easy_erp.services.items import search_items as _search_items
 from reckon_easy_erp.services.parties import create_party, search_parties
+from reckon_easy_erp.permissions import require_easy_erp_user
+from reckon_easy_erp.services.common import user_context
 
 
 def _values(value: dict[str, Any] | str | None) -> dict[str, Any]:
 	return frappe.parse_json(value) if isinstance(value, str) else (value or {})
+
+
+@frappe.whitelist()
+def get_entry_defaults():
+	require_easy_erp_user()
+	context = user_context()
+	settings = frappe.get_cached_doc("Easy ERP Settings")
+	return {
+		"company": context["company"],
+		"warehouse": context["warehouse"],
+		"default_warehouse": context["warehouse"],
+		"selling_price_list": settings.default_selling_price_list,
+		"buying_price_list": settings.default_buying_price_list,
+		"can_submit": context["can_submit"],
+	}
 
 
 @frappe.whitelist()

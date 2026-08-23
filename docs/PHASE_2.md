@@ -12,9 +12,22 @@ item, price, or stock transaction is duplicated in a custom DocType.
 
 ## Routes
 
-- `/app/easy-customers`
-- `/app/easy-suppliers`
-- `/app/easy-items`
+Native Frappe lists:
+
+- `/app/customer`
+- `/app/supplier`
+- `/app/item`
+
+Simplified creation Pages:
+
+- `/app/easy-customer-entry`
+- `/app/easy-supplier-entry`
+- `/app/easy-item-entry`
+
+The native lists retain Frappe filtering, sorting, pagination, saved views and
+bulk actions. Easy ERP users with create permission see an **Easy Add** action
+that opens the corresponding simplified Page. Dashboard master cards expose
+both list and entry actions.
 
 ## Deployment
 
