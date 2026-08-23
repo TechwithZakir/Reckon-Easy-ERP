@@ -223,6 +223,8 @@
 .easy-cart-head { padding: 8px 10px; color: var(--text-muted); font-size: 11px; font-weight: 700; }
 .easy-cart-row { padding: 10px; border-top: 1px solid var(--easy-erp-border); }
 .easy-cart-row > span { display: flex; flex-direction: column; }
+.easy-item-link { color: var(--easy-erp-primary-dark); font-weight: 700; text-decoration: none; }
+.easy-item-link:hover, .easy-item-link:focus { color: var(--easy-erp-primary); text-decoration: underline; }
 .easy-cart-row small { color: var(--text-muted); }
 .easy-cart-row input { height: 38px; }
 .easy-cart-row .remove { width: 30px; height: 30px; border: 0; border-radius: 50%; background: #fff0f0; color: #c92a2a; font-size: 20px; }

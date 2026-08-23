@@ -78,7 +78,11 @@ function render_cart(container, state) {
 	const target = container.find(".easy-cart");
 	if (!state.items.length) return target.html(`<div class="easy-empty-cart">${__("এখনও কোনো পণ্য যোগ করা হয়নি")}</div>`);
 	target.html(`<div class="easy-cart-table"><div class="easy-cart-head"><span>${__("পণ্য")}</span><span>${__("পরিমাণ")}</span><span>${__("দর")}</span><span>${__("ছাড় %")}</span><span>${__("মোট")}</span><span></span></div>
-		${state.items.map((item, index) => `<div class="easy-cart-row" data-index="${index}"><span><strong>${frappe.utils.escape_html(item.item_name)}</strong><small>${frappe.utils.escape_html(item.item_code)}</small></span><input class="form-control qty" type="number" min="0.001" step="any" value="${item.qty}"><input class="form-control rate" type="number" min="0" step="any" value="${item.rate}"><input class="form-control discount" type="number" min="0" max="100" step="any" value="${item.discount_percentage}"><strong>${reckon_easy_erp.format_currency(line_total(item), state.currency)}</strong><button class="remove" aria-label="${__("মুছুন")}">×</button></div>`).join("")}</div>`);
+		${state.items.map((item, index) => `<div class="easy-cart-row" data-index="${index}"><span><a class="easy-item-link" href="#" data-index="${index}">${frappe.utils.escape_html(item.item_name)}</a><small>${frappe.utils.escape_html(item.item_code)}</small></span><input class="form-control qty" type="number" min="0.001" step="any" value="${item.qty}"><input class="form-control rate" type="number" min="0" step="any" value="${item.rate}"><input class="form-control discount" type="number" min="0" max="100" step="any" value="${item.discount_percentage}"><strong>${reckon_easy_erp.format_currency(line_total(item), state.currency)}</strong><button class="remove" aria-label="${__("মুছুন")}">×</button></div>`).join("")}</div>`);
+	target.find(".easy-item-link").on("click", function (event) {
+		event.preventDefault();
+		frappe.set_route("Form", "Item", state.items[Number(this.dataset.index)].item_code);
+	});
 	target.find("input").on("change input", function () {
 		const row = $(this).closest(".easy-cart-row"); const item = state.items[Number(row.data("index"))];
 		if ($(this).hasClass("qty")) item.qty = Number(this.value || 0);

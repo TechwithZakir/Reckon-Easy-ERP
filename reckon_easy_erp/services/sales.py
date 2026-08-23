@@ -15,6 +15,7 @@ def get_sales_context() -> dict[str, Any]:
 	require_permission("Sales Invoice", "create")
 	context = user_context()
 	settings = frappe.get_cached_doc("Easy ERP Settings")
+	selling_price_list = _selling_price_list(settings)
 	payment_modes = frappe.get_list(
 		"Easy ERP Payment Mode Mapping",
 		filters={"company": context["company"], "enabled": 1},
@@ -42,7 +43,7 @@ def get_sales_context() -> dict[str, Any]:
 		"currency": frappe.get_cached_value("Company", context["company"], "default_currency"),
 		"warehouse": context["warehouse"],
 		"walk_in_customer": settings.walk_in_customer,
-		"selling_price_list": settings.default_selling_price_list,
+		"selling_price_list": selling_price_list,
 		"posting_date": nowdate(),
 		"payment_modes": [dict(row) for row in payment_modes],
 		"maximum_discount_percentage": flt(context["maximum_discount_percentage"]),
@@ -53,17 +54,42 @@ def get_sales_context() -> dict[str, Any]:
 def search_sale_items(query: str = "") -> list[dict[str, Any]]:
 	require_permission("Sales Invoice", "create")
 	settings = frappe.get_cached_doc("Easy ERP Settings")
+	price_list = _selling_price_list(settings)
 	rows = search_items(query, 20)
 	for row in rows:
-		rate = 0
-		if settings.default_selling_price_list:
-			rate = frappe.db.get_value(
-				"Item Price",
-				{"item_code": row["item_code"], "price_list": settings.default_selling_price_list, "selling": 1},
-				"price_list_rate",
-			) or 0
-		row["rate"] = flt(rate)
+		row["rate"] = _item_selling_rate(row["item_code"], row.get("stock_uom"), price_list)
 	return rows
+
+
+def _selling_price_list(settings=None) -> str | None:
+	settings = settings or frappe.get_cached_doc("Easy ERP Settings")
+	return (
+		settings.default_selling_price_list
+		or frappe.get_single_value("Selling Settings", "selling_price_list")
+		or frappe.db.get_value("Price List", {"selling": 1, "enabled": 1}, "name", order_by="modified desc")
+	)
+
+
+def _item_selling_rate(item_code: str, stock_uom: str | None, price_list: str | None) -> float:
+	if not price_list:
+		return 0
+	today = nowdate()
+	prices = frappe.get_list(
+		"Item Price",
+		filters={"item_code": item_code, "price_list": price_list, "selling": 1},
+		fields=["price_list_rate", "uom", "valid_from", "valid_upto"],
+		order_by="valid_from desc, modified desc",
+		limit_page_length=50,
+	)
+	for price in prices:
+		if price.valid_from and str(price.valid_from) > today:
+			continue
+		if price.valid_upto and str(price.valid_upto) < today:
+			continue
+		if price.uom and stock_uom and price.uom != stock_uom:
+			continue
+		return flt(price.price_list_rate)
+	return 0
 
 
 def create_sale(values: dict[str, Any]) -> dict[str, Any]:
@@ -102,9 +128,7 @@ def create_sale(values: dict[str, Any]) -> dict[str, Any]:
 	doc.posting_date = values.get("posting_date") or nowdate()
 	doc.update_stock = 1
 	doc.set_warehouse = warehouse
-	doc.selling_price_list = values.get("selling_price_list") or frappe.get_cached_doc(
-		"Easy ERP Settings"
-	).default_selling_price_list
+	doc.selling_price_list = values.get("selling_price_list") or _selling_price_list()
 	doc.easy_erp_request_id = request_id
 	for row in items:
 		_append_sale_item(doc, row, warehouse, context)
