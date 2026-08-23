@@ -17,6 +17,7 @@ frappe.pages["easy-sale"].on_page_load = function (wrapper) {
 		<footer class="easy-transaction-footer"><button class="btn btn-default save-draft">${__("খসড়া রাখুন")}</button><button class="btn btn-primary btn-lg submit-sale">${__("বিক্রয় সম্পন্ন করুন")}</button></footer>
 	</div>`);
 	const controls = make_sale_controls(page.main);
+	reckon_easy_erp.guard_autocomplete(page.main);
 	bind_sale_events(page.main, controls, state);
 	frappe.call("reckon_easy_erp.sales_api.get_sales_context").then(({ message }) => {
 		state.context = message;

@@ -201,6 +201,8 @@
 .easy-transaction-section:nth-of-type(3) { z-index: 20; }
 .easy-transaction-section:nth-of-type(n+4) { z-index: 10; }
 .easy-transaction-section:focus-within { z-index: 100; }
+.easy-transaction-section.has-open-autocomplete,
+.easy-entry-section.has-open-autocomplete { padding-bottom: calc(22px + var(--easy-autocomplete-space, 0px)); }
 .easy-transaction-section > h3 { display: flex; align-items: center; gap: 9px; margin: 0 0 16px; font-size: 18px; }
 .easy-transaction-section > h3 b { width: 27px; height: 27px; border-radius: 50%; background: #dff3ec; color: var(--easy-erp-primary); display: grid; place-items: center; font-size: 13px; }
 .easy-transaction-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }

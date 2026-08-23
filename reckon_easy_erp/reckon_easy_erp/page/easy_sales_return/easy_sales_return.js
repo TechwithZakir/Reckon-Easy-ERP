@@ -4,6 +4,7 @@ frappe.pages["easy-sales-return"].on_page_load = function (wrapper) {
 	const invoice = frappe.ui.form.make_control({ parent: page.main.find(".invoice-control"), df: { fieldtype: "Link", options: "Sales Invoice", label: __("মূল বিক্রয়"), reqd: 1, get_query: () => ({ filters: { docstatus: 1, is_return: 0 } }) }, render_input: true });
 	const date = frappe.ui.form.make_control({ parent: page.main.find(".date-control"), df: { fieldtype: "Date", label: __("ফেরতের তারিখ"), default: frappe.datetime.get_today(), reqd: 1 }, render_input: true });
 	date.set_value(frappe.datetime.get_today());
+	reckon_easy_erp.guard_autocomplete(page.main);
 	page.main.find(".invoice-list").on("click", () => frappe.set_route("sales-invoice"));
 	page.main.find(".submit-return").on("click", function () {
 		if (!invoice.get_value()) return frappe.msgprint(__("মূল বিক্রয় নির্বাচন করুন"));

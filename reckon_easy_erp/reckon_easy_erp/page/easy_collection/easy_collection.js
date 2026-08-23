@@ -12,6 +12,7 @@ frappe.pages["easy-collection"].on_page_load = function (wrapper) {
 		mode: frappe.ui.form.make_control({ parent: page.main.find(".mode-control"), df: { fieldtype: "Select", label: __("পেমেন্ট পদ্ধতি"), reqd: 1 }, render_input: true }),
 		reference: frappe.ui.form.make_control({ parent: page.main.find(".reference-control"), df: { fieldtype: "Data", label: __("লেনদেন রেফারেন্স") }, render_input: true }),
 	};
+	reckon_easy_erp.guard_autocomplete(page.main);
 	const state = { invoices: [], request_id: reckon_easy_erp.request_id() };
 	page.main.find(".payment-list").on("click", () => frappe.set_route("payment-entry"));
 	frappe.call("reckon_easy_erp.sales_api.get_sales_context").then(({ message }) => { controls.mode.df.options = ["", ...message.payment_modes.map((row) => row.display_name)].join("\n"); controls.mode.refresh(); });

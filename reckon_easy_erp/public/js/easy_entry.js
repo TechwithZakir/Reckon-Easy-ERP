@@ -21,6 +21,7 @@ reckon_easy_erp.make_entry_page = function ({ wrapper, title, subtitle, list_rou
 			controls[df.fieldname] = frappe.ui.form.make_control({ parent: cell, df: { ...df, label: __(df.label) }, render_input: true });
 		});
 	});
+	reckon_easy_erp.guard_autocomplete(page.main);
 	frappe.call("reckon_easy_erp.master_api.get_entry_defaults").then(({ message }) => {
 		Object.entries(message || {}).forEach(([key, value]) => value && controls[key]?.set_value(value));
 	});
