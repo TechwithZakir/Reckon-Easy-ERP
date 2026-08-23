@@ -53,35 +53,125 @@
 .easy-erp-action .icon { color: var(--easy-erp-primary); }
 .easy-erp-loading { padding: 48px 16px; text-align: center; color: var(--text-muted); }
 
-.easy-erp-master-toolbar {
-	display: flex;
-	align-items: flex-end;
-	gap: 12px;
-	margin-bottom: 18px;
+.easy-erp-master-panel {
+	max-width: 920px;
+	margin: 8px auto 0;
+	padding: 20px;
+	border: 1px solid var(--easy-erp-border);
+	border-radius: 16px;
+	background: var(--easy-erp-surface);
+	box-shadow: 0 5px 20px rgb(15 65 48 / 8%);
 }
 
-.easy-erp-master-search { flex: 1; }
+.easy-erp-master-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	position: relative;
+	z-index: 3;
+}
+
+.easy-erp-search-wrap { flex: 1; min-width: 0; position: relative; }
 .easy-erp-master-search .form-group { margin-bottom: 0; }
+.easy-erp-master-search .control-input { position: relative; }
+.easy-erp-master-search .control-input::before {
+	content: "⌕";
+	position: absolute;
+	left: 14px;
+	top: 50%;
+	transform: translateY(-53%);
+	z-index: 1;
+	color: var(--text-muted);
+	font-size: 23px;
+}
+.easy-erp-master-search input {
+	height: 48px;
+	padding-left: 42px;
+	border-radius: 10px;
+	font-size: 15px;
+}
+.easy-erp-master-toolbar .easy-erp-new { min-height: 48px; padding-inline: 24px; border-radius: 10px; }
+
+.easy-erp-search-dropdown {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	right: 0;
+	max-height: 430px;
+	overflow-y: auto;
+	border: 1px solid var(--easy-erp-border);
+	border-radius: 12px;
+	background: var(--easy-erp-surface);
+	box-shadow: 0 14px 32px rgb(18 50 40 / 18%);
+}
+.easy-erp-search-dropdown[hidden] { display: none; }
+
+.easy-erp-dropdown-item {
+	width: 100%;
+	padding: 12px 15px;
+	border: 0;
+	border-bottom: 1px solid var(--easy-erp-border);
+	background: transparent;
+	display: grid;
+	grid-template-columns: minmax(120px, 1fr) minmax(100px, .8fr);
+	gap: 2px 16px;
+	text-align: left;
+	cursor: pointer;
+}
+.easy-erp-dropdown-item:last-child { border-bottom: 0; }
+.easy-erp-dropdown-item:hover, .easy-erp-dropdown-item:focus { background: #edf8f4; outline: none; }
+.easy-erp-dropdown-item strong { font-size: 14px; }
+.easy-erp-dropdown-item span { color: var(--easy-erp-primary); }
+.easy-erp-dropdown-item small { grid-column: 1 / -1; color: var(--text-muted); }
+.easy-erp-dropdown-empty { padding: 20px; text-align: center; color: var(--text-muted); }
+
+.easy-erp-list-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 28px 0 10px;
+}
+.easy-erp-list-heading h3 { margin: 0; font-size: 18px; }
+.easy-erp-result-count { color: var(--text-muted); font-size: 13px; }
 
 .easy-erp-results {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	gap: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .easy-erp-result {
-	min-height: 78px;
-	padding: 15px;
+	min-height: 88px;
+	padding: 14px 16px;
 	border: 1px solid var(--easy-erp-border);
-	border-radius: 10px;
+	border-radius: 12px;
 	background: var(--easy-erp-surface);
 	display: flex;
-	flex-direction: column;
-	gap: 6px;
+	align-items: center;
+	gap: 14px;
+	transition: border-color .15s ease, box-shadow .15s ease;
 }
-
-.easy-erp-result strong { font-size: 16px; }
-.easy-erp-result span { color: var(--text-muted); }
+.easy-erp-result:hover { border-color: #9acbb9; box-shadow: 0 3px 12px rgb(22 129 93 / 8%); }
+.easy-erp-result-avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: #dff3ec;
+	color: var(--easy-erp-primary);
+	display: grid;
+	place-items: center;
+	font-size: 19px;
+	font-weight: 700;
+	flex: 0 0 auto;
+}
+.easy-erp-result-body { flex: 1; min-width: 0; }
+.easy-erp-result-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.easy-erp-result-title strong { font-size: 16px; color: var(--text-color); }
+.easy-erp-result-title > span { color: var(--easy-erp-primary); font-weight: 600; }
+.easy-erp-result-details { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px; }
+.easy-erp-result-details span { display: inline-flex; align-items: center; gap: 5px; color: var(--text-muted); }
+.easy-erp-result-details .icon { color: var(--easy-erp-primary); }
+.easy-erp-result-body small { display: block; margin-top: 5px; color: var(--text-light); }
 .easy-erp-empty { grid-column: 1 / -1; padding: 40px 16px; text-align: center; color: var(--text-muted); }
 
 .easy-erp-setup-card {
@@ -114,5 +204,9 @@
 	.easy-erp-welcome { align-items: flex-start; flex-direction: column; }
 	.easy-erp-master-toolbar { align-items: stretch; flex-direction: column; }
 	.easy-erp-master-toolbar .easy-erp-new { min-height: 48px; width: 100%; }
-	.easy-erp-results { grid-template-columns: 1fr; }
+	.easy-erp-master-panel { padding: 12px; border-radius: 12px; }
+	.easy-erp-dropdown-item { grid-template-columns: 1fr; }
+	.easy-erp-dropdown-item small { grid-column: 1; }
+	.easy-erp-result { align-items: flex-start; padding: 13px; }
+	.easy-erp-result-avatar { width: 42px; height: 42px; }
 }

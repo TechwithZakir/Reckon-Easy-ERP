@@ -27,7 +27,7 @@ def search_parties(doctype: str, query: str = "", limit: int = 20) -> list[dict[
 	config = _config(doctype)
 	query = clean_text(query, 80)
 	limit = min(max(int(limit or 20), 1), 50)
-	fields = ["name", config["name_field"], config["group_field"], "disabled"]
+	fields = ["name", config["name_field"], config["group_field"], config["type_field"], "disabled"]
 	meta = frappe.get_meta(doctype)
 	if meta.has_field("mobile_no"):
 		fields.append("mobile_no")
@@ -54,6 +54,7 @@ def search_parties(doctype: str, query: str = "", limit: int = 20) -> list[dict[
 			"name": row.name,
 			"display_name": row.get(config["name_field"]),
 			"group": row.get(config["group_field"]),
+			"type": row.get(config["type_field"]),
 			"mobile_no": row.get("mobile_no"),
 		}
 		for row in rows
