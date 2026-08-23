@@ -156,7 +156,12 @@
 .easy-entry-header p { margin: 0; color: var(--text-muted); }
 .easy-entry-form { padding: 4px 26px 12px; }
 .easy-entry-section { padding: 22px 0; border-bottom: 1px solid var(--easy-erp-border); }
-.easy-entry-section:focus-within { position: relative; z-index: 20; }
+.easy-entry-section { position: relative; }
+.easy-entry-section:nth-of-type(1) { z-index: 40; }
+.easy-entry-section:nth-of-type(2) { z-index: 30; }
+.easy-entry-section:nth-of-type(3) { z-index: 20; }
+.easy-entry-section:nth-of-type(n+4) { z-index: 10; }
+.easy-entry-section:focus-within { z-index: 100; }
 .easy-entry-section:last-child { border-bottom: 0; }
 .easy-entry-section-title { margin-bottom: 14px; }
 .easy-entry-section-title h3 { margin: 0; font-size: 17px; }
@@ -190,8 +195,12 @@
 .easy-back-to-list { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; border-color: #c8ded6; border-radius: 9px; color: var(--easy-erp-primary-dark); font-weight: 600; }
 .easy-back-to-list span { color: inherit; font-size: 18px; font-weight: 400; letter-spacing: 0; line-height: 1; }
 .easy-back-to-list:hover, .easy-back-to-list:focus { border-color: var(--easy-erp-primary); background: #e5f5ef; color: var(--easy-erp-primary-dark); }
-.easy-transaction-section { position: relative; z-index: 1; padding: 22px 26px; border-bottom: 1px solid var(--easy-erp-border); }
-.easy-transaction-section:focus-within { z-index: 30; }
+.easy-transaction-section { position: relative; padding: 22px 26px; border-bottom: 1px solid var(--easy-erp-border); }
+.easy-transaction-section:nth-of-type(1) { z-index: 40; }
+.easy-transaction-section:nth-of-type(2) { z-index: 30; }
+.easy-transaction-section:nth-of-type(3) { z-index: 20; }
+.easy-transaction-section:nth-of-type(n+4) { z-index: 10; }
+.easy-transaction-section:focus-within { z-index: 100; }
 .easy-transaction-section > h3 { display: flex; align-items: center; gap: 9px; margin: 0 0 16px; font-size: 18px; }
 .easy-transaction-section > h3 b { width: 27px; height: 27px; border-radius: 50%; background: #dff3ec; color: var(--easy-erp-primary); display: grid; place-items: center; font-size: 13px; }
 .easy-transaction-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -239,10 +248,13 @@
 .easy-erp-page .easy-entry-field:focus-within,
 .easy-erp-page .easy-transaction-grid > div:focus-within,
 .easy-erp-page .easy-collection-customer > div:focus-within { position: relative; z-index: 50; }
-.easy-erp-page .awesomplete { position: relative; z-index: 60; }
+.easy-erp-page .form-group,
+.easy-erp-page .frappe-control,
+.easy-erp-page .awesomplete { overflow: visible !important; }
+.easy-erp-page .awesomplete { position: relative; z-index: 200; }
 .easy-erp-page .awesomplete > ul,
 .easy-erp-page .autocomplete-items,
-.easy-erp-page .dropdown-menu { z-index: 1100 !important; max-height: 320px; overflow-y: auto; }
+.easy-erp-page .dropdown-menu { position: absolute; z-index: 1200 !important; max-height: 320px; overflow-y: auto; }
 
 .easy-erp-master-panel {
 	max-width: 920px;

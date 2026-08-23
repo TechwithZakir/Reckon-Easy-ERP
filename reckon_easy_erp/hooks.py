@@ -39,10 +39,10 @@ add_to_apps_screen = [
 	}
 ]
 
-app_include_css = ["/assets/reckon_easy_erp/css/easy_erp.css?v=0.5.2"]
+app_include_css = ["/assets/reckon_easy_erp/css/easy_erp.css?v=0.5.3"]
 app_include_js = [
-	"/assets/reckon_easy_erp/js/easy_erp_compat.js?v=0.5.2",
-	"/assets/reckon_easy_erp/js/easy_entry.js?v=0.5.2",
+	"/assets/reckon_easy_erp/js/easy_erp_compat.js?v=0.5.3",
+	"/assets/reckon_easy_erp/js/easy_entry.js?v=0.5.3",
 ]
 
 doctype_list_js = {
