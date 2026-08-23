@@ -39,16 +39,18 @@ add_to_apps_screen = [
 	}
 ]
 
-app_include_css = ["/assets/reckon_easy_erp/css/easy_erp.css?v=0.4.0"]
+app_include_css = ["/assets/reckon_easy_erp/css/easy_erp.css?v=0.5.0"]
 app_include_js = [
-	"/assets/reckon_easy_erp/js/easy_erp_compat.js?v=0.4.0",
-	"/assets/reckon_easy_erp/js/easy_entry.js?v=0.4.0",
+	"/assets/reckon_easy_erp/js/easy_erp_compat.js?v=0.5.0",
+	"/assets/reckon_easy_erp/js/easy_entry.js?v=0.5.0",
 ]
 
 doctype_list_js = {
 	"Customer": "public/js/customer_list.js",
 	"Supplier": "public/js/supplier_list.js",
 	"Item": "public/js/item_list.js",
+	"Sales Invoice": "public/js/sales_invoice_list.js",
+	"Payment Entry": "public/js/payment_entry_list.js",
 }
 
 permission_query_conditions = {

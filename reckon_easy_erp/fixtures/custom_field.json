@@ -3,5 +3,15 @@
   "doctype": "Custom Field", "dt": "Item", "fieldname": "easy_erp_bangla_name", "fieldtype": "Data",
   "insert_after": "item_name", "label": "Bangla Item Name", "name": "Item-easy_erp_bangla_name",
   "no_copy": 0, "print_hide": 0, "read_only": 0, "reqd": 0, "search_index": 1, "translatable": 0, "unique": 0
+ },
+ {
+  "doctype":"Custom Field","dt":"Sales Invoice","fieldname":"easy_erp_request_id","fieldtype":"Data",
+  "insert_after":"customer","label":"Easy ERP Request ID","name":"Sales Invoice-easy_erp_request_id",
+  "no_copy":1,"read_only":1,"unique":1,"search_index":1,"hidden":1,"allow_on_submit":1
+ },
+ {
+  "doctype":"Custom Field","dt":"Payment Entry","fieldname":"easy_erp_request_id","fieldtype":"Data",
+  "insert_after":"payment_type","label":"Easy ERP Request ID","name":"Payment Entry-easy_erp_request_id",
+  "no_copy":1,"read_only":1,"unique":1,"search_index":1,"hidden":1,"allow_on_submit":1
  }
 ]

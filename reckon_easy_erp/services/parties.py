@@ -63,6 +63,7 @@ def search_parties(doctype: str, query: str = "", limit: int = 20) -> list[dict[
 
 def create_party(doctype: str, values: dict[str, Any]) -> dict[str, Any]:
 	require_permission(doctype, "create")
+	require_permission("Contact", "create")
 	config = _config(doctype)
 	party_name = clean_text(values.get("party_name"), 140)
 	group = clean_text(values.get("group"), 140)
@@ -70,6 +71,7 @@ def create_party(doctype: str, values: dict[str, Any]) -> dict[str, Any]:
 	if not party_name or not group:
 		frappe.throw(_("Name and group are required."))
 	mobile = normalize_bd_mobile(values.get("mobile_no"))
+	email = clean_text(values.get("email_id"), 140).lower()
 	if mobile and not BD_MOBILE_PATTERN.fullmatch(mobile):
 		frappe.throw(_("Enter a valid Bangladeshi mobile number."))
 
@@ -94,4 +96,20 @@ def create_party(doctype: str, values: dict[str, Any]) -> dict[str, Any]:
 		doc.mobile_no = mobile
 	doc.check_permission("create")
 	doc.insert()
-	return {"name": doc.name, "display_name": party_name, "mobile_no": mobile}
+	contact = _create_primary_contact(doctype, doc.name, party_name, mobile, email)
+	return {"name": doc.name, "display_name": party_name, "mobile_no": mobile, "contact": contact.name}
+
+
+def _create_primary_contact(
+	party_doctype: str, party_name: str, display_name: str, mobile: str, email: str
+):
+	contact = frappe.new_doc("Contact")
+	contact.first_name = display_name
+	contact.mobile_no = mobile
+	contact.email_id = email
+	if contact.meta.has_field("is_primary_contact"):
+		contact.is_primary_contact = 1
+	contact.append("links", {"link_doctype": party_doctype, "link_name": party_name})
+	contact.check_permission("create")
+	contact.insert()
+	return contact

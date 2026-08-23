@@ -28,6 +28,13 @@ class TestEasyERPMasters(FrappeTestCase):
 		created = create_party("Customer", values)
 		self.assertTrue(frappe.db.exists("Customer", created["name"]))
 		self.assertEqual(created["mobile_no"], f"017{self.mobile_suffix}")
+		self.assertTrue(frappe.db.exists("Contact", created["contact"]))
+		self.assertTrue(
+			frappe.db.exists(
+				"Dynamic Link",
+				{"parent": created["contact"], "link_doctype": "Customer", "link_name": created["name"]},
+			)
+		)
 		self.assertTrue(any(row["name"] == created["name"] for row in search_parties("Customer", self.suffix)))
 		with self.assertRaises(frappe.ValidationError):
 			create_party("Customer", values)
@@ -46,6 +53,13 @@ class TestEasyERPMasters(FrappeTestCase):
 			},
 		)
 		self.assertTrue(frappe.db.exists("Supplier", created["name"]))
+		self.assertTrue(frappe.db.exists("Contact", created["contact"]))
+		self.assertTrue(
+			frappe.db.exists(
+				"Dynamic Link",
+				{"parent": created["contact"], "link_doctype": "Supplier", "link_name": created["name"]},
+			)
+		)
 		self.assertTrue(any(row["name"] == created["name"] for row in search_parties("Supplier", f"018{self.mobile_suffix}")))
 
 	def test_item_bangla_name_and_barcode_search(self):

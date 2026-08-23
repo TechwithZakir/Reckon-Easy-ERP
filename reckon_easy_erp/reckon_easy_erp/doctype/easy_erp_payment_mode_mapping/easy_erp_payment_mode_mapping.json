@@ -10,6 +10,6 @@
   {"default": "1", "fieldname": "enabled", "fieldtype": "Check", "in_list_view": 1, "label": "Enabled"}
  ],
  "index_web_pages_for_search": 0, "links": [], "modified": "2026-08-23 00:00:00.000000", "modified_by": "Administrator", "module": "Reckon Easy ERP", "name": "Easy ERP Payment Mode Mapping", "owner": "Administrator",
- "permissions": [{"create": 1, "delete": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1}, {"create": 1, "delete": 1, "read": 1, "role": "System Manager", "write": 1}],
+ "permissions": [{"create": 1, "delete": 1, "read": 1, "role": "Easy ERP Administrator", "write": 1}, {"create": 1, "delete": 1, "read": 1, "role": "System Manager", "write": 1}, {"read": 1, "role": "Easy ERP Sales User"}, {"read": 1, "role": "Easy ERP Purchase User"}, {"read": 1, "role": "Easy ERP Manager"}, {"read": 1, "role": "Easy ERP Owner"}],
  "sort_field": "modified", "sort_order": "DESC", "states": [], "track_changes": 1
 }

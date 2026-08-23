@@ -36,6 +36,8 @@ def user_context() -> dict[str, Any]:
 				"warehouse": defaults.get("default_warehouse"),
 				"account": defaults.get("default_cash_account"),
 				"can_submit": True,
+				"can_cancel": True,
+				"maximum_discount_percentage": 100,
 			}
 		frappe.throw(_("Ask an administrator to configure your Easy ERP access."), frappe.PermissionError)
 	doc = frappe.get_doc("Easy ERP User Access", name)
@@ -48,4 +50,6 @@ def user_context() -> dict[str, Any]:
 		"warehouse": doc.default_warehouse,
 		"account": doc.default_account,
 		"can_submit": bool(doc.can_submit),
+		"can_cancel": bool(doc.can_cancel),
+		"maximum_discount_percentage": doc.maximum_discount_percentage,
 	}
