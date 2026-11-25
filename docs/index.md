@@ -8,6 +8,8 @@ lang: en
 
 # Reckon Easy ERP: simple, Bangla-friendly workflows on ERPNext
 
+![Banner](banner.svg)
+
 Reckon Easy ERP is built for businesses that find a full ERP too heavy. It places simple, mobile-friendly, Bangladesh-first workflows over ERPNext and HRMS, so teams work in plain screens while ERPNext and HRMS remain the source of truth for accounting, stock, HR and payroll. It is part of the [ReckonERP](https://app.reckon.tech) family.
 
 ## Detailed features
